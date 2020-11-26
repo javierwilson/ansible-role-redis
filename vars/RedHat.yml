@@ -1,5 +1,7 @@
 ---
 __redis_package: redis
 redis_daemon: redis
-redis_conf_path: /etc/redis.conf
+redis_conf_path: /etc/redis
 redis_conf_mode: 0644
+redis_init_path: /etc/init.d
+redis_init_mode: 0755

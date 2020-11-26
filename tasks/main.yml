@@ -14,11 +14,12 @@
     state: directory
     mode: 0755
 
-- name: Ensure Redis is configured.
+- name: Ensure Redis is configured for each port
   template:
     src: redis.conf.j2
-    dest: "{{ redis_conf_path }}"
+    dest: "{{ redis_conf_path }}/redis_{{ item }}.conf"
     mode: "{{ redis_conf_mode }}"
+  with_items: "{{ redis_port }}"
   notify: restart redis
 
 # Setup/install tasks.
@@ -31,5 +32,27 @@
 - include_tasks: setup-Archlinux.yml
   when: ansible_os_family == 'Archlinux'
 
+- name: Copies init script for each port
+  template:
+    src: redis.init.j2
+    dest: "{{ redis_init_path }}/redis_{{ item }}"
+    mode: "{{ redis_init_mode }}"
+  with_items: "{{ redis_port }}"
+  notify: restart redis
+
 - name: Ensure Redis is running and enabled on boot.
-  service: "name={{ redis_daemon }} state=started enabled=yes"
+  service:
+    name: "redis_{{ item }}"
+    state: started
+    enabled: yes
+  with_items: "{{ redis_port }}"
+
+- name: Removes default conf file
+  file:
+    path: "{{ redis_conf_path }}/redis.conf"
+    state: absent
+
+- name: Removes default init file
+  file:
+    path: "{{ redis_init_path }}/redis-server"
+    state: absent

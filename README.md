@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/geerlingguy/ansible-role-redis/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-redis/actions?query=workflow%3ACI)
 
-Installs [Redis](http://redis.io/) on Linux.
+Installs [Redis](http://redis.io/) on Linux. Multiple instances, multiple ports.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ On RedHat-based distributions, requires the EPEL repository (you can simply add 
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    redis_port: 6379
+    redis_port: [6379,6380,6381]
     redis_bind_interface: 127.0.0.1
 
 Port and interface on which Redis will listen. Set the interface to `0.0.0.0` to listen on all interfaces.
