@@ -12,7 +12,7 @@ unixsocket {{ redis_unixsocket }}
 timeout {{ redis_timeout }}
 
 loglevel {{ redis_loglevel }}
-logfile {{ redis_logfile }}
+logfile {{ redis_logfile }}/redis_{{ item }}.log
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
@@ -27,7 +27,7 @@ save {{ save }}
 {% endfor %}
 
 rdbcompression {{ redis_rdbcompression }}
-dbfilename {{ redis_dbfilename }}
+dbfilename {{ redis_dbfilename }}_{{ item }}.rdb
 dir {{ redis_dbdir }}
 
 # maxclients 128
